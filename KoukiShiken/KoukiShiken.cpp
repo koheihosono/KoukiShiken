@@ -21,8 +21,8 @@ int main()
 	Status status[] =
 	{
 		{"勇者",100,1000,500,500,0},
-		{"０１",1,5,2,2,500},
-		{"魔王",1,5000,2500,5,1000}
+		{"０１",1,5,2,2,50},
+		{"魔王",1,3000,2500,5,1000}
 	};
 
 	cout << "名前　　　　" << status[0].name << endl;
@@ -55,12 +55,15 @@ int main()
 
 	int redherbag = 0;
 	int blueherbag = 0;
+	int charmbag = 0;
 	int herosword = 0;
 	int bronzesword = 0;
 	int silversword = 0;
 	int goldensword = 0;
 
 	int equip = 0;
+
+	int turnnum = 1;
 
 	int kingmoney = 1;
 
@@ -117,6 +120,8 @@ int main()
 					money -= charm;
 
 					cout << status[0].name << "は小さなお守りを手に入れた！" << endl;
+
+					charmbag += 1;
 				}
 				else
 				{
@@ -271,11 +276,15 @@ int main()
 			}
 			else if (travel == 2)
 			{
+				hp1 = status[1].hp;
+
 				cout << status[1].name << "が現れた！" << endl;
 
 				while (true)
 				{
 					int herochoice;
+
+					cout << "現在" << turnnum << "ターン目です" << endl;
 
 					cout << status[0].name << "はどうする？" << endl;
 
@@ -623,6 +632,19 @@ int main()
 
 							break;
 						}
+						else
+						{
+							cout << "押すボタンが違います" << endl;
+						}
+					}
+
+					if (hp1 <= 0)
+					{
+						money += money1;
+
+						cout << status[0].name << "は戦闘に勝利！" << money1 << "マネーを手に入れた！" << endl;
+
+						break;
 					}
 
 					int enemymove = rand() % 3;
@@ -635,6 +657,15 @@ int main()
 
 						if (zarakiima == 0)
 						{
+							if (charmbag >= 0)
+							{
+								charmbag -= 1;
+
+								hp = status[0].hp;
+
+								cout << "お守りの力で死を免れた！" << endl;
+							}
+
 							cout << status[0].name << "は死んでしまった…" << endl;
 
 							break;
@@ -654,13 +685,554 @@ int main()
 
 						if (hp <= 0)
 						{
+							if (charmbag >= 0)
+							{
+								charmbag -= 1;
+
+								hp = status[0].hp;
+
+								cout << "お守りの力で死を免れた！" << endl;
+							}
+
 							cout << status[0].name << "は死んでしまった…" << endl;
 
 							break;
 						}
 					}
+					else if(enemymove == 2)
+					{
+						cout << status[1].name << "はゴロゴロしている" << endl;
+					}
+
+					++turnnum;
 				}
 			}
+			else if (travel == 3)
+			{
+				turnnum = 1;
+
+				cout << status[2].name << "が現れた！" << endl;
+				
+				while (true)
+				{
+					int herochoice;
+
+					cout << status[0].name << "はどうする？" << endl;
+
+					if (equip == 0)
+					{
+						cout << "１：攻撃　２：道具　３：逃走" << endl;
+
+						cin >> herochoice;
+
+						if (herochoice == 1)
+						{
+							hp2 -= at / df2;
+
+							cout << status[0].name << "の攻撃！" << endl;
+
+							cout << status[2].name << "は" << at / df2 << "ダメージを受けた！" << endl;
+						}
+						else if (herochoice == 2)
+						{
+							int itemchoice;
+
+							cout << "何を使用しますか？　１：赤い薬草　２：青い薬草" << endl;
+
+							cin >> itemchoice;
+
+							if (itemchoice == 1)
+							{
+								if (redherbag <= 0)
+								{
+									cout << "赤い薬草が存在しません" << endl;
+								}
+								else
+								{
+									redherbag -= 1;
+
+									cout << status[0].name << "は赤い薬草を使った！" << endl;
+
+									hp += hp / 5;
+
+									if (hp >= status[0].hp)
+									{
+										hp = status[0].hp;
+									}
+
+									cout << status[0].name << "の体力が" << hp / 5 << "回復した！" << endl;
+								}
+							}
+							else if (itemchoice == 2)
+							{
+								if (blueherbag <= 0)
+								{
+									cout << "青い薬草が存在しません" << endl;
+								}
+								else
+								{
+									blueherbag -= 1;
+
+									cout << status[0].name << "は青い薬草を使った！" << endl;
+
+									hp2 -= at;
+
+									cout << status[2].name << "は" << at << "ダメージを受けた！" << endl;
+								}
+							}
+						}
+						else if (herochoice == 3)
+						{
+							cout << status[0].name << "は逃げ出した！" << endl;
+
+							break;
+						}
+					}
+					else if (equip == 4)
+					{
+						cout << "１：渾身斬り　２：道具　３：逃走" << endl;
+
+						cin >> herochoice;
+
+						if (herochoice == 1)
+						{
+							hp2 -= (at * 3 / 2) / df2;
+
+							cout << status[0].name << "の渾身斬り！" << endl;
+
+							cout << status[2].name << "は" << (at * 3 / 2) / df2 << "ダメージを受けた！" << endl;
+						}
+						else if (herochoice == 2)
+						{
+							int itemchoice;
+
+							cout << "何を使用しますか？　１：赤い薬草　２：青い薬草" << endl;
+
+							cin >> itemchoice;
+
+							if (itemchoice == 1)
+							{
+								if (redherbag <= 0)
+								{
+									cout << "赤い薬草が存在しません" << endl;
+								}
+								else
+								{
+									redherbag -= 1;
+
+									cout << status[0].name << "は赤い薬草を使った！" << endl;
+
+									hp += hp / 5;
+
+									if (hp >= status[0].hp)
+									{
+										hp = status[0].hp;
+									}
+
+									cout << status[0].name << "の体力が" << hp / 5 << "回復した！" << endl;
+								}
+							}
+							else if (itemchoice == 2)
+							{
+								if (blueherbag <= 0)
+								{
+									cout << "青い薬草が存在しません" << endl;
+								}
+								else
+								{
+									blueherbag -= 1;
+
+									cout << status[0].name << "は青い薬草を使った！" << endl;
+
+									hp2 -= at;
+
+									cout << status[2].name << "は" << at << "ダメージを受けた！" << endl;
+								}
+							}
+						}
+						else if (herochoice == 3)
+						{
+							cout << status[0].name << "は逃げ出した！" << endl;
+
+							break;
+						}
+					}
+					else if (equip == 3)
+					{
+						cout << "１：全身全霊斬り　２：道具　３：逃走" << endl;
+
+						cin >> herochoice;
+
+						if (herochoice == 1)
+						{
+							hp2 -= (at * 2) / df2;
+
+							cout << status[0].name << "の全身全霊斬り！" << endl;
+
+							cout << status[2].name << "は" << (at * 2) / df2 << "ダメージを受けた！" << endl;
+						}
+						else if (herochoice == 2)
+						{
+							int itemchoice;
+
+							cout << "何を使用しますか？　１：赤い薬草　２：青い薬草" << endl;
+
+							cin >> itemchoice;
+
+							if (itemchoice == 1)
+							{
+								if (redherbag <= 0)
+								{
+									cout << "赤い薬草が存在しません" << endl;
+								}
+								else
+								{
+									redherbag -= 1;
+
+									cout << status[0].name << "は赤い薬草を使った！" << endl;
+
+									hp += hp / 5;
+
+									if (hp >= status[0].hp)
+									{
+										hp = status[0].hp;
+									}
+
+									cout << status[0].name << "の体力が" << hp / 5 << "回復した！" << endl;
+								}
+							}
+							else if (itemchoice == 2)
+							{
+								if (blueherbag <= 0)
+								{
+									cout << "青い薬草が存在しません" << endl;
+								}
+								else
+								{
+									blueherbag -= 1;
+
+									cout << status[0].name << "は青い薬草を使った！" << endl;
+
+									hp2 -= at;
+
+									cout << status[1].name << "は" << at << "ダメージを受けた！" << endl;
+								}
+							}
+						}
+						else if (herochoice == 3)
+						{
+							cout << status[0].name << "は逃げ出した！" << endl;
+
+							break;
+						}
+					}
+					else if (equip == 2)
+					{
+						cout << "１：アルテマソード　２：道具　３：逃走" << endl;
+
+						cin >> herochoice;
+
+						if (herochoice == 1)
+						{
+							hp2 -= (at * 5 / 2) / df2;
+
+							cout << status[0].name << "のアルテマソード！" << endl;
+
+							cout << status[2].name << "は" << (at * 5 / 2) / df2 << "ダメージを受けた！" << endl;
+						}
+						else if (herochoice == 2)
+						{
+							int itemchoice;
+
+							cout << "何を使用しますか？　１：赤い薬草　２：青い薬草" << endl;
+
+							cin >> itemchoice;
+
+							if (itemchoice == 1)
+							{
+								if (redherbag <= 0)
+								{
+									cout << "赤い薬草が存在しません" << endl;
+								}
+								else
+								{
+									redherbag -= 1;
+
+									cout << status[0].name << "は赤い薬草を使った！" << endl;
+
+									hp += hp / 5;
+
+									if (hp >= status[0].hp)
+									{
+										hp = status[0].hp;
+									}
+
+									cout << status[0].name << "の体力が" << hp / 5 << "回復した！" << endl;
+								}
+							}
+							else if (itemchoice == 2)
+							{
+								if (blueherbag <= 0)
+								{
+									cout << "青い薬草が存在しません" << endl;
+								}
+								else
+								{
+									blueherbag -= 1;
+
+									cout << status[0].name << "は青い薬草を使った！" << endl;
+
+									hp2 -= at;
+
+									cout << status[2].name << "は" << at << "ダメージを受けた！" << endl;
+								}
+							}
+						}
+						else if (herochoice == 3)
+						{
+							cout << status[0].name << "は逃げ出した！" << endl;
+
+							break;
+						}
+					}
+					else if (equip == 1)
+					{
+						cout << "１：覇王斬　２：道具　３：逃走" << endl;
+
+						cin >> herochoice;
+
+						if (herochoice == 1)
+						{
+							hp2 -= (at * 3) / df2;
+
+							cout << status[0].name << "の覇王斬！" << endl;
+
+							cout << status[2].name << "は" << (at * 3) / df2 << "ダメージを受けた！" << endl;
+						}
+						else if (herochoice == 2)
+						{
+							int itemchoice;
+
+							cout << "何を使用しますか？　１：赤い薬草　２：青い薬草" << endl;
+
+							cin >> itemchoice;
+
+							if (itemchoice == 1)
+							{
+								if (redherbag <= 0)
+								{
+									cout << "赤い薬草が存在しません" << endl;
+								}
+								else
+								{
+									redherbag -= 1;
+
+									cout << status[0].name << "は赤い薬草を使った！" << endl;
+
+									hp += hp / 5;
+
+									if (hp >= status[0].hp)
+									{
+										hp = status[0].hp;
+									}
+
+									cout << status[0].name << "の体力が" << hp / 5 << "回復した！" << endl;
+								}
+							}
+							else if (itemchoice == 2)
+							{
+								if (blueherbag <= 0)
+								{
+									cout << "青い薬草が存在しません" << endl;
+								}
+								else
+								{
+									blueherbag -= 1;
+
+									cout << status[0].name << "は青い薬草を使った！" << endl;
+
+									hp2 -= at;
+
+									cout << status[2].name << "は" << at << "ダメージを受けた！" << endl;
+								}
+							}
+						}
+						else if (herochoice == 3)
+						{
+							cout << status[0].name << "は逃げ出した！" << endl;
+
+							break;
+						}
+						else
+						{
+							cout << "押すボタンが違います" << endl;
+						}
+					}
+
+					if (hp2 <= 0)
+					{
+						money += money2;
+
+						cout << status[0].name << "は戦闘に勝利！" << money2 << "マネーを手に入れた！" << endl;
+
+						break;
+					}
+
+					if (turnnum % 6 == 1)
+					{
+						hp -= at2 * 3 / df;
+
+						cout << status[2].name << "はグランドノヴァを放った！" << endl;
+
+						cout << status[0].name << "は" << at2 / df << "ダメージを食らった！" << endl;
+
+						if (hp <= 0)
+						{
+							if (charmbag >= 0)
+							{
+								charmbag -= 1;
+
+								hp = status[0].hp;
+
+								cout << "お守りの力で死を免れた！" << endl;
+							}
+
+							cout << status[0].name << "は死んでしまった…" << endl;
+
+							break;
+						}
+					}
+					else if (turnnum % 6 == 2)
+					{
+						hp -= at2 * 3 / df;
+
+						cout << status[2].name << "は巨星魔砲を放った！" << endl;
+
+						cout << status[0].name << "は" << at2 / df << "ダメージを食らった！" << endl;
+
+						if (hp <= 0)
+						{
+							if (charmbag >= 0)
+							{
+								charmbag -= 1;
+
+								hp = status[0].hp;
+
+								cout << "お守りの力で死を免れた！" << endl;
+							}
+
+							cout << status[0].name << "は死んでしまった…" << endl;
+
+							break;
+						}
+					}
+					else if (turnnum % 6 == 3)
+					{
+						hp -= at2 * 3 / df;
+
+						cout << status[2].name << "は大結晶を放った！" << endl;
+
+						cout << status[0].name << "は" << at2 * 2 / df << "ダメージを食らった！" << endl;
+
+						if (hp <= 0)
+						{
+							if (charmbag >= 0)
+							{
+								charmbag -= 1;
+
+								hp = status[0].hp;
+
+								cout << "お守りの力で死を免れた！" << endl;
+							}
+
+							cout << status[0].name << "は死んでしまった…" << endl;
+
+							break;
+						}
+					}
+					else if (turnnum % 6 == 4)
+					{
+						hp -= at2 * 3 / df;
+
+						cout << status[2].name << "は星刃氷連斬を放った！" << endl;
+
+						cout << status[0].name << "は" << at2 * 2 / df << "ダメージを食らった！" << endl;
+
+						if (hp <= 0)
+						{
+							if (charmbag >= 0)
+							{
+								charmbag -= 1;
+
+								hp = status[0].hp;
+
+								cout << "お守りの力で死を免れた！" << endl;
+							}
+
+							cout << status[0].name << "は死んでしまった…" << endl;
+
+							break;
+						}
+					}
+					else if (turnnum % 6 == 5)
+					{
+						hp -= at2 * 3 / df;
+
+						cout << status[2].name << "は星神烈火を放った！" << endl;
+
+						cout << status[0].name << "は" << at2 * 3 / df << "ダメージを食らった！" << endl;
+
+						if (hp <= 0)
+						{
+							if (charmbag >= 0)
+							{
+								charmbag -= 1;
+
+								hp = status[0].hp;
+
+								cout << "お守りの力で死を免れた！" << endl;
+							}
+							
+							cout << status[0].name << "は死んでしまった…" << endl;
+
+							break;
+						}
+					}
+					else if (turnnum % 6 == 0)
+					{
+						hp -= at2 * 3 / df;
+
+						cout << status[2].name << "はギラブレイドを放った！" << endl;
+
+						cout << status[0].name << "は" << at2 * 3 / df << "ダメージを食らった！" << endl;
+
+						if (hp <= 0)
+						{
+							if (charmbag >= 0)
+							{
+								charmbag -= 1;
+
+								hp = status[0].hp;
+
+								cout << "お守りの力で死を免れた！" << endl;
+							}
+
+							cout << status[0].name << "は死んでしまった…" << endl;
+
+							break;
+						}
+					}
+
+					++turnnum;
+				}
+			}
+		}
+
+		if (hp2 <= 0)
+		{
+			cout << "ゲームクリア！" << endl;
+
+			break;
 		}
 	}
 }
